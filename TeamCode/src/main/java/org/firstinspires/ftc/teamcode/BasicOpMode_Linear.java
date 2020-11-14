@@ -51,11 +51,11 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
 public class BasicOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    // motors
     private DcMotor left1Drive = null;
     private DcMotor left2Drive = null;
     private DcMotor right1Drive = null;
@@ -69,6 +69,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
+        // maps motors to hardware
         left1Drive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         left2Drive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         right1Drive = hardwareMap.get(DcMotor.class, "right_front_drive");
@@ -107,6 +108,9 @@ public class BasicOpMode_Linear extends LinearOpMode {
             right2Power   = Range.clip(drive - turn, -1.0, 1.0) ;
 
             // Dead zone
+            /*if (left1Power < .3) {
+                left1Power = 0;
+            }*/
             // acceleration function
 
             // Tank Mode uses one stick to control each wheel.
