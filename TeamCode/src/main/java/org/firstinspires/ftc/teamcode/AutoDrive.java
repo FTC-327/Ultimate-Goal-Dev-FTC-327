@@ -66,11 +66,32 @@ public class AutoDrive extends LinearOpMode {
     private DcMotor left2Drive = null;
     private DcMotor right1Drive = null;
     private DcMotor right2Drive = null;
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
 
     static final double FORWARD_SPEED = 0.6;
     static final double TURN_SPEED    = 0.5;
+
+    public void setDirection() {
+            left1Drive.setDirection(DcMotor.Direction.FORWARD);
+            left2Drive.setDirection(DcMotor.Direction.FORWARD);
+            right1Drive.setDirection(DcMotor.Direction.REVERSE);
+            right2Drive.setDirection(DcMotor.Direction.REVERSE);
+    }
+    public void setLeft(String d) { // d = direction
+        if (d.equals("forward")) {
+            left1Drive.setPower(FORWARD_SPEED);
+            left2Drive.setPower(FORWARD_SPEED);
+        } else if (d.equals("backwards")) {
+            left1Drive.setPower(-FORWARD_SPEED);
+            left2Drive.setPower(-FORWARD_SPEED);
+        }
+    }
+    public void setRight(String d) {    // d = direction
+
+        right1Drive.setPower(FORWARD_SPEED);
+        right2Drive.setPower(FORWARD_SPEED);
+    }
 
     @Override
     public void runOpMode() {
@@ -84,10 +105,8 @@ public class AutoDrive extends LinearOpMode {
         right1Drive = hardwareMap.get(DcMotor.class, "right_front_drive");
         right2Drive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        left1Drive.setDirection(DcMotor.Direction.FORWARD);
-        left2Drive.setDirection(DcMotor.Direction.FORWARD);
-        right1Drive.setDirection(DcMotor.Direction.REVERSE);
-        right2Drive.setDirection(DcMotor.Direction.REVERSE);
+        // set direction to forward
+        setDirection();
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //

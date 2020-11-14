@@ -70,10 +70,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
         // maps motors to hardware
-        left1Drive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        left2Drive  = hardwareMap.get(DcMotor.class, "left_back_drive");
-        right1Drive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        right2Drive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        left1Drive  = hardwareMap.get(DcMotor.class, "left_front");
+        left2Drive  = hardwareMap.get(DcMotor.class, "left_back");
+        right1Drive = hardwareMap.get(DcMotor.class, "right_front");
+        right2Drive = hardwareMap.get(DcMotor.class, "right_back");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -102,10 +102,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
-            left1Power    = Range.clip(drive + turn, -1.0, 1.0) ;
-            left2Power    = Range.clip(drive + turn, -1.0, 1.0) ;
-            right1Power   = Range.clip(drive - turn, -1.0, 1.0) ;
-            right2Power   = Range.clip(drive - turn, -1.0, 1.0) ;
+            left1Power    = Range.clip(drive - turn, -1.0, 1.0) ;
+            left2Power    = Range.clip(drive - turn, -1.0, 1.0) ;
+            right1Power   = Range.clip(drive + turn, -1.0, 1.0) ;
+            right2Power   = Range.clip(drive + turn, -1.0, 1.0) ;
 
             // Dead zone
             /*if (left1Power < .3) {
