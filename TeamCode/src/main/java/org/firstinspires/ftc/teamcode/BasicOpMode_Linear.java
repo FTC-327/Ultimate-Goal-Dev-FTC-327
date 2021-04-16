@@ -55,6 +55,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    // motors
     private DcMotor left1Drive = null;
     private DcMotor left2Drive = null;
     private DcMotor right1Drive = null;
@@ -69,11 +70,11 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
+
         left1Drive  = hardwareMap.get(DcMotor.class, "left_front");
         left2Drive  = hardwareMap.get(DcMotor.class, "left_back");
         right1Drive = hardwareMap.get(DcMotor.class, "right_front");
         right2Drive = hardwareMap.get(DcMotor.class, "right_back");
-        // intake      = hardwareMap.get(DcMotor.class, "intake_motor");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -111,6 +112,9 @@ public class BasicOpMode_Linear extends LinearOpMode {
             right2Power   = Range.clip(drive - strafe + turn, -1.0, 1.0) ;
 
             // Dead zone
+            /*if (left1Power < .3) {
+                left1Power = 0;
+            }*/
             // acceleration function
 
             // Tank Mode uses one stick to control each wheel.
