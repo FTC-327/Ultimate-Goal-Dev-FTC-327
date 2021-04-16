@@ -60,6 +60,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor left2Drive = null;
     private DcMotor right1Drive = null;
     private DcMotor right2Drive = null;
+    private DcMotor intake = null;
 
     @Override
     public void runOpMode() {
@@ -69,18 +70,20 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        // maps motors to hardware
-        left1Drive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        left2Drive  = hardwareMap.get(DcMotor.class, "left_back_drive");
-        right1Drive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        right2Drive = hardwareMap.get(DcMotor.class, "right_back_drive");
+
+        left1Drive  = hardwareMap.get(DcMotor.class, "left_front");
+        left2Drive  = hardwareMap.get(DcMotor.class, "left_back");
+        right1Drive = hardwareMap.get(DcMotor.class, "right_front");
+        right2Drive = hardwareMap.get(DcMotor.class, "right_back");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         left1Drive.setDirection(DcMotor.Direction.FORWARD);
+        // left2Drive.setDirection(DcMotor.Direction.REVERSE); // ONLY reverse for test bot
         left2Drive.setDirection(DcMotor.Direction.FORWARD);
         right1Drive.setDirection(DcMotor.Direction.REVERSE);
         right2Drive.setDirection(DcMotor.Direction.REVERSE);
+        intake.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -101,11 +104,12 @@ public class BasicOpMode_Linear extends LinearOpMode {
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
+            double strafe = gamepad1.left_stick_x;
             double turn  =  gamepad1.right_stick_x;
-            left1Power    = Range.clip(drive + turn, -1.0, 1.0) ;
-            left2Power    = Range.clip(drive + turn, -1.0, 1.0) ;
-            right1Power   = Range.clip(drive - turn, -1.0, 1.0) ;
-            right2Power   = Range.clip(drive - turn, -1.0, 1.0) ;
+            left1Power    = Range.clip(drive - strafe - turn, -1.0, 1.0) ;
+            left2Power    = Range.clip(drive + strafe - turn, -1.0, 1.0) ;
+            right1Power   = Range.clip(drive + strafe + turn, -1.0, 1.0) ;
+            right2Power   = Range.clip(drive - strafe + turn, -1.0, 1.0) ;
 
             // Dead zone
             /*if (left1Power < .3) {
@@ -126,8 +130,14 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left front (%.2f), left back (%.2f), right front (%.2f), right back (%.2f)", left1Power, left2Power, right1Power, right2Power);
+            telemetry.addData("Motors", "left front (%.2f), left back (%.2f), right front (%.2f), right back (%.2f), intake (%.2f)", left1Power, left2Power, right1Power, right2Power);
             telemetry.update();
+
+            //Activates the intake motor when pulling the left trigger
+            /*double leftTrigger = gamepad1.left_trigger;
+            if (leftTrigger > 0) {
+                intake.setPower(1);
+            }*/
         }
     }
 }
